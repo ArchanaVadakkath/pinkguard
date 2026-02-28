@@ -1,4 +1,4 @@
-<img width="1864" height="888" alt="Screenshot 2026-02-28 085821" src="https://github.com/user-attachments/assets/4b8fc08d-156b-4607-8b99-ebdadb0cd63c" /># 🌸 PinkGuard – Women’s Health Companion
+### 🌸 PinkGuard – Women’s Health Companion
 
 > Gentle Care for Every Woman 💗
 
