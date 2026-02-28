@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nutrition Guide — PinkGuard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose: #e8456a;
+        --rose-light: #f472a0;
+        --plum: #7c2d52;
+        --blush: #fce8ef;
+        --cream: #fdf8f5;
+        --text: #2a1a22;
+        --muted: #9b7a8a;
+        --card-bg: rgba(255, 255, 255, 0.75);
+        --shadow: 0 8px 32px rgba(124, 45, 82, 0.1);
+        --glow: 0 0 40px rgba(232, 69, 106, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cream);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 70% 55% at 10% 0%,
+            #ffe0ed55 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 55% 50% at 90% 100%,
+            #f3d9ff33 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 50% 50%,
+            #fff0f522 0%,
+            transparent 70%
+          );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      .page-wrap {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ======== NAVBAR ======== */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px 60px;
+        background: rgba(255, 250, 248, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(232, 69, 106, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        animation: slideDown 0.6s ease both;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--plum);
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        box-shadow: 0 4px 14px rgba(232, 69, 106, 0.3);
+        flex-shrink: 0;
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 20px;
+        background: transparent;
+        border: 1.5px solid rgba(124, 45, 82, 0.15);
+        color: var(--muted);
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+      }
+
+      .back-btn:hover {
+        border-color: var(--rose);
+        color: var(--rose);
+        background: var(--blush);
+      }
+
+      .back-btn svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* ======== HERO ======== */
+      .hero {
+        padding: 64px 60px 0;
+        max-width: 820px;
+        animation: fadeUp 0.7s 0.05s ease both;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--blush);
+        color: var(--rose);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 50px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(232, 69, 106, 0.15);
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 48px;
+        font-weight: 700;
+        color: var(--plum);
+        letter-spacing: -0.025em;
+        line-height: 1.15;
+        margin-bottom: 12px;
+      }
+
+      .hero h1 em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .hero p {
+        font-size: 16px;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.65;
+      }
+
+      /* ======== MAIN CONTENT ======== */
+      .content {
+        padding: 48px 60px 100px;
+      }
+
+      /* ---- TAB BAR ---- */
+      .tab-bar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 40px;
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        padding: 6px;
+        border-radius: 20px;
+        border: 1px solid rgba(232, 69, 106, 0.1);
+        width: fit-content;
+        box-shadow: var(--shadow);
+        animation: fadeUp 0.7s 0.15s ease both;
+      }
+
+      .tab-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        border-radius: 14px;
+        border: none;
+        background: transparent;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.25s ease;
+        letter-spacing: 0.01em;
+      }
+
+      .tab-btn:hover {
+        color: var(--plum);
+        background: rgba(124, 45, 82, 0.05);
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        color: white;
+        box-shadow: 0 4px 14px rgba(232, 69, 106, 0.3);
+      }
+
+      .tab-btn .tab-emoji {
+        font-size: 16px;
+      }
+
+      /* ---- TAB CONTENT ---- */
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 18px;
+        animation: fadeUp 0.5s ease both;
+      }
+
+      /* ---- NUTRITION CARDS ---- */
+      .nutrition-card {
+        background: var(--card-bg);
+        border-radius: 22px;
+        padding: 26px 24px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nutrition-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 22px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.55) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+
+      .nutrition-card:hover {
+        transform: translateY(-5px);
+        box-shadow:
+          0 20px 44px rgba(124, 45, 82, 0.13),
+          var(--glow);
+      }
+
+      /* Card size variants */
+      .card-wide {
+        grid-column: span 7;
+      }
+      .card-narrow {
+        grid-column: span 5;
+      }
+      .card-half {
+        grid-column: span 6;
+      }
+      .card-third {
+        grid-column: span 4;
+      }
+
+      .card-blob {
+        position: absolute;
+        right: -28px;
+        bottom: -28px;
+        width: 110px;
+        height: 110px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 69, 106, 0.07) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .card-accent-bar {
+        width: 28px;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--rose), var(--rose-light));
+        margin-bottom: 16px;
+      }
+
+      /* Badge */
+      .item-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-bottom: 14px;
+      }
+
+      .badge-drink {
+        background: #e0f7fa;
+        color: #00838f;
+        border: 1px solid rgba(0, 131, 143, 0.15);
+      }
+
+      .badge-food {
+        background: #fff3e0;
+        color: #e65100;
+        border: 1px solid rgba(230, 81, 0, 0.15);
+      }
+
+      .item-icon {
+        font-size: 38px;
+        display: block;
+        margin-bottom: 10px;
+        line-height: 1;
+      }
+
+      .nutrition-card h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 19px;
+        font-weight: 700;
+        color: var(--plum);
+        margin-bottom: 8px;
+        letter-spacing: -0.01em;
+      }
+
+      .nutrition-card p {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.65;
+        font-weight: 300;
+      }
+
+      /* Tip chip */
+      .tip-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 14px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--rose);
+        background: var(--blush);
+        padding: 5px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(232, 69, 106, 0.12);
+      }
+
+      /* ======== FOOTER ======== */
+      .footer {
+        text-align: center;
+        padding: 28px;
+        font-size: 13px;
+        color: var(--muted);
+        border-top: 1px solid rgba(232, 69, 106, 0.08);
+        font-weight: 300;
+      }
+
+      .footer strong {
+        font-weight: 600;
+        color: var(--plum);
+        font-family: "Playfair Display", serif;
+      }
+
+      /* ======== ANIMATIONS ======== */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ======== RESPONSIVE ======== */
+      @media (max-width: 900px) {
+        .navbar {
+          padding: 18px 24px;
+        }
+        .hero {
+          padding: 48px 24px 0;
+        }
+        .hero h1 {
+          font-size: 34px;
+        }
+        .content {
+          padding: 36px 24px 70px;
+        }
+        .tab-bar {
+          flex-wrap: wrap;
+          width: 100%;
+        }
+        .tab-btn {
+          flex: 1;
+          justify-content: center;
+        }
+        .card-wide,
+        .card-narrow,
+        .card-half,
+        .card-third {
+          grid-column: span 12;
+        }
+        .tab-panel.active {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page-wrap">
+      <!-- NAVBAR -->
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">🌷</div>
+          PinkGuard
+        </a>
+        <button
+          class="back-btn"
+          onclick="window.location.href = 'dashboard.html'"
+        >
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
+          Back to Dashboard
+        </button>
+      </nav>
+
+      <!-- HERO -->
+      <header class="hero">
+        <div class="hero-badge">🥗 Nutrition Guide</div>
+        <h1>Eat well,<br /><em>feel powerful.</em></h1>
+        <p>
+          Foods and drinks tailored for your body's unique needs — from hormonal
+          balance to immunity and iron.
+        </p>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+        <!-- TAB BAR -->
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="showTab('iron', this)">
+            <span class="tab-emoji">🩸</span> Iron Boost
+          </button>
+          <button class="tab-btn" onclick="showTab('hormonal', this)">
+            <span class="tab-emoji">🌸</span> Hormonal Balance
+          </button>
+          <button class="tab-btn" onclick="showTab('immunity', this)">
+            <span class="tab-emoji">🛡️</span> Immunity
+          </button>
+        </div>
+
+        <!-- ===== IRON TAB ===== -->
+        <div id="iron" class="tab-panel active">
+          <!-- Wide card -->
+          <div class="nutrition-card card-wide">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🥤</span>
+            <span class="item-badge badge-drink">Drink</span>
+            <h4>Beetroot & Carrot Juice</h4>
+            <p>
+              A powerful natural hemoglobin booster. The combination of beetroot
+              nitrates and carrot beta-carotene supports red blood cell
+              production and oxygen delivery.
+            </p>
+            <div class="tip-chip">✨ Best on an empty stomach, daily</div>
+          </div>
+
+          <!-- Narrow card -->
+          <div class="nutrition-card card-narrow">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🍽️</span>
+            <span class="item-badge badge-food">Food</span>
+            <h4>Spinach & Lentil Bowl</h4>
+            <p>
+              Iron-rich plant meal. Add a squeeze of lemon for vitamin C to
+              maximise absorption.
+            </p>
+            <div class="tip-chip">🍋 Pair with vitamin C</div>
+          </div>
+
+          <!-- Half cards -->
+          <div class="nutrition-card card-half">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🍬</span>
+            <span class="item-badge badge-food">Food</span>
+            <h4>Dates & Jaggery Balls</h4>
+            <p>
+              A traditional iron-rich snack. Two to three pieces daily keeps
+              fatigue away the natural way.
+            </p>
+            <div class="tip-chip">🌿 Traditional remedy</div>
+          </div>
+
+          <div class="nutrition-card card-half">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🍹</span>
+            <span class="item-badge badge-drink">Drink</span>
+            <h4>Pomegranate Smoothie</h4>
+            <p>
+              Blend with amla powder for maximum iron absorption and antioxidant
+              benefits.
+            </p>
+            <div class="tip-chip">💊 Add amla for extra boost</div>
+          </div>
+        </div>
+
+        <!-- ===== HORMONAL TAB ===== -->
+        <div id="hormonal" class="tab-panel">
+          <div class="nutrition-card card-wide">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🍵</span>
+            <span class="item-badge badge-drink">Drink</span>
+            <h4>Spearmint & Chamomile Tea</h4>
+            <p>
+              Spearmint has been shown to reduce androgen levels while chamomile
+              soothes the nervous system — a calming combo for hormonal
+              fluctuations and PCOS support.
+            </p>
+            <div class="tip-chip">🌿 2 cups daily recommended</div>
+          </div>
+
+          <div class="nutrition-card card-narrow">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🥤</span>
+            <span class="item-badge badge-drink">Drink</span>
+            <h4>Flaxseed Smoothie</h4>
+            <p>
+              Lignans in flaxseeds help naturally balance estrogen levels
+              throughout your cycle.
+            </p>
+            <div class="tip-chip">🌱 1 tbsp ground daily</div>
+          </div>
+
+          <div class="nutrition-card card-half">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🐟</span>
+            <span class="item-badge badge-food">Food</span>
+            <h4>Salmon & Avocado Bowl</h4>
+            <p>
+              Omega-3 fatty acids reduce inflammation and support hormonal
+              signalling throughout the cycle.
+            </p>
+            <div class="tip-chip">🔥 Anti-inflammatory</div>
+          </div>
+
+          <div class="nutrition-card card-half">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🥣</span>
+            <span class="item-badge badge-food">Food</span>
+            <h4>Cinnamon Oatmeal</h4>
+            <p>
+              Cinnamon regulates insulin sensitivity — a key factor in managing
+              PCOS and hormonal balance.
+            </p>
+            <div class="tip-chip">🩺 PCOS-friendly</div>
+          </div>
+        </div>
+
+        <!-- ===== IMMUNITY TAB ===== -->
+        <div id="immunity" class="tab-panel">
+          <div class="nutrition-card card-wide">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🥤</span>
+            <span class="item-badge badge-drink">Drink</span>
+            <h4>Morning Green Smoothie</h4>
+            <p>
+              Kale, fresh ginger, lemon, and cucumber blended into a vibrant
+              antioxidant powerhouse. Start your day with this to fortify your
+              immune defenses from the inside out.
+            </p>
+            <div class="tip-chip">☀️ Best first thing in the morning</div>
+          </div>
+
+          <div class="nutrition-card card-narrow">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🥦</span>
+            <span class="item-badge badge-food">Food</span>
+            <h4>Broccoli & Garlic Stir Fry</h4>
+            <p>
+              Sulforaphane in broccoli + allicin in garlic deliver potent
+              cancer-fighting compounds.
+            </p>
+            <div class="tip-chip">🛡️ Cancer-protective</div>
+          </div>
+
+          <div class="nutrition-card card-half">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🍓</span>
+            <span class="item-badge badge-food">Food</span>
+            <h4>Berry Yogurt Parfait</h4>
+            <p>
+              Probiotics from yogurt combined with berry antioxidants support
+              gut and immune health together.
+            </p>
+            <div class="tip-chip">🦠 Gut & immunity duo</div>
+          </div>
+
+          <div class="nutrition-card card-half">
+            <div class="card-blob"></div>
+            <div class="card-accent-bar"></div>
+            <span class="item-icon">🍋</span>
+            <span class="item-badge badge-drink">Drink</span>
+            <h4>Ginger Lemon Honey Water</h4>
+            <p>
+              A simple morning immunity ritual that warms the body and activates
+              your natural defences.
+            </p>
+            <div class="tip-chip">🌅 Morning ritual</div>
+          </div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        © 2026 <strong>PinkGuard</strong> · Made with care 🌷 · Always consult a
+        healthcare professional before making dietary changes.
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      function showTab(tabId, btn) {
+        // Hide all panels
+        document
+          .querySelectorAll(".tab-panel")
+          .forEach((p) => p.classList.remove("active"));
+        // Deactivate all buttons
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        // Activate selected
+        document.getElementById(tabId).classList.add("active");
+        if (btn) btn.classList.add("active");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Period Tracker — PinkGuard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose: #e8456a;
+        --rose-light: #f472a0;
+        --plum: #7c2d52;
+        --blush: #fce8ef;
+        --cream: #fdf8f5;
+        --text: #2a1a22;
+        --muted: #9b7a8a;
+        --card-bg: rgba(255, 255, 255, 0.75);
+        --shadow: 0 8px 32px rgba(124, 45, 82, 0.1);
+        --glow: 0 0 40px rgba(232, 69, 106, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cream);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 70% 55% at 10% 0%,
+            #ffe0ed55 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 55% 50% at 90% 100%,
+            #f3d9ff33 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 50% 50%,
+            #fff0f522 0%,
+            transparent 70%
+          );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      .page-wrap {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ======== NAVBAR ======== */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px 60px;
+        background: rgba(255, 250, 248, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(232, 69, 106, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        animation: slideDown 0.6s ease both;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--plum);
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        box-shadow: 0 4px 14px rgba(232, 69, 106, 0.3);
+        flex-shrink: 0;
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 20px;
+        background: transparent;
+        border: 1.5px solid rgba(124, 45, 82, 0.15);
+        color: var(--muted);
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+      }
+
+      .back-btn:hover {
+        border-color: var(--rose);
+        color: var(--rose);
+        background: var(--blush);
+      }
+
+      .back-btn svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* ======== HERO ======== */
+      .hero {
+        padding: 64px 60px 0;
+        max-width: 820px;
+        animation: fadeUp 0.7s 0.05s ease both;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--blush);
+        color: var(--rose);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 50px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(232, 69, 106, 0.15);
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 48px;
+        font-weight: 700;
+        color: var(--plum);
+        letter-spacing: -0.025em;
+        line-height: 1.15;
+        margin-bottom: 12px;
+      }
+
+      .hero h1 em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .hero p {
+        font-size: 16px;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.65;
+      }
+
+      /* ======== MAIN CONTENT ======== */
+      .content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 48px 60px 100px;
+        align-items: start;
+      }
+
+      /* ---- Shared card style ---- */
+      .panel {
+        background: var(--card-bg);
+        border-radius: 24px;
+        padding: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.7s ease both;
+      }
+
+      .panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 24px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.5) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+
+      .card-blob {
+        position: absolute;
+        right: -28px;
+        bottom: -28px;
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 69, 106, 0.07) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .card-accent-bar {
+        width: 32px;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--rose), var(--rose-light));
+        margin-bottom: 18px;
+      }
+
+      .panel-title {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--plum);
+        letter-spacing: -0.01em;
+        margin-bottom: 6px;
+      }
+
+      .panel-sub {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 300;
+        margin-bottom: 24px;
+        line-height: 1.5;
+      }
+
+      /* ---- Stat boxes ---- */
+      .stats-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 0;
+      }
+
+      .stat-box {
+        background: linear-gradient(135deg, var(--blush), #f9e4f2);
+        border-radius: 16px;
+        padding: 18px 16px;
+        border: 1px solid rgba(232, 69, 106, 0.1);
+        text-align: center;
+        transition: transform 0.25s ease;
+      }
+
+      .stat-box:hover {
+        transform: translateY(-3px);
+      }
+
+      .stat-icon {
+        font-size: 22px;
+        margin-bottom: 6px;
+        display: block;
+      }
+
+      .stat-value {
+        font-family: "Playfair Display", serif;
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--plum);
+        letter-spacing: -0.02em;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      /* ---- Cycle ring visual ---- */
+      .cycle-ring-wrap {
+        display: flex;
+        justify-content: center;
+        margin: 24px 0;
+      }
+
+      .cycle-ring {
+        position: relative;
+        width: 130px;
+        height: 130px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .cycle-ring svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+
+      .ring-bg {
+        fill: none;
+        stroke: #fce8ef;
+        stroke-width: 10;
+      }
+      .ring-fill {
+        fill: none;
+        stroke: url(#ringGrad);
+        stroke-width: 10;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 1s ease;
+      }
+
+      .ring-center {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+      }
+      .ring-num {
+        font-family: "Playfair Display", serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--plum);
+        line-height: 1;
+      }
+      .ring-hint {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      /* ---- Phase badge ---- */
+      .phase-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 500;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        width: fit-content;
+      }
+
+      .phase-menstrual {
+        background: #ffe0e8;
+        color: #c0365c;
+        border: 1px solid rgba(232, 69, 106, 0.2);
+      }
+      .phase-follicular {
+        background: #fff3e0;
+        color: #e65100;
+        border: 1px solid rgba(230, 81, 0, 0.2);
+      }
+      .phase-ovulation {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid rgba(46, 125, 50, 0.2);
+      }
+      .phase-luteal {
+        background: #ede7f6;
+        color: #512da8;
+        border: 1px solid rgba(81, 45, 168, 0.2);
+      }
+
+      /* ---- Log input ---- */
+      .log-section {
+        animation-delay: 0.2s;
+      }
+
+      .date-input-wrap {
+        position: relative;
+        margin-bottom: 14px;
+      }
+
+      .date-input-wrap input[type="date"] {
+        width: 100%;
+        padding: 14px 16px 14px 44px;
+        border-radius: 14px;
+        border: 1.5px solid rgba(124, 45, 82, 0.12);
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+        font-family: "DM Sans", sans-serif;
+        color: var(--text);
+        outline: none;
+        transition: all 0.25s ease;
+        backdrop-filter: blur(8px);
+        appearance: none;
+      }
+
+      .date-input-wrap input[type="date"]:focus {
+        border-color: var(--rose);
+        background: white;
+        box-shadow: 0 0 0 4px rgba(232, 69, 106, 0.08);
+      }
+
+      .date-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        pointer-events: none;
+        opacity: 0.5;
+      }
+
+      .log-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        box-shadow: 0 6px 20px rgba(232, 69, 106, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .log-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(232, 69, 106, 0.4);
+      }
+
+      .log-btn:active {
+        transform: translateY(0);
+      }
+
+      .log-btn svg {
+        width: 16px;
+        height: 16px;
+        stroke: white;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* Success toast */
+      .toast {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid rgba(46, 125, 50, 0.2);
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        margin-top: 14px;
+      }
+      .toast.show {
+        display: flex;
+        animation: fadeUp 0.4s ease;
+      }
+
+      /* ---- History ---- */
+      .history-panel {
+        animation-delay: 0.3s;
+        grid-column: 1 / -1;
+      }
+
+      .history-empty {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 300;
+      }
+
+      .history-empty-icon {
+        font-size: 40px;
+        display: block;
+        margin-bottom: 12px;
+        opacity: 0.4;
+      }
+
+      .history-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .history-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 14px;
+        border: 1px solid rgba(232, 69, 106, 0.08);
+        transition: all 0.2s ease;
+        animation: fadeUp 0.4s ease both;
+      }
+
+      .history-item:hover {
+        background: white;
+        transform: translateX(4px);
+      }
+
+      .history-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .history-dot {
+        width: 10px;
+        height: 10px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .history-date {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--plum);
+      }
+
+      .history-days-ago {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 300;
+        margin-top: 2px;
+      }
+
+      .delete-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        opacity: 0.3;
+        transition: opacity 0.2s;
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      .delete-btn:hover {
+        opacity: 0.8;
+        background: #fff0f3;
+      }
+
+      /* ======== FOOTER ======== */
+      .footer {
+        text-align: center;
+        padding: 28px;
+        font-size: 13px;
+        color: var(--muted);
+        border-top: 1px solid rgba(232, 69, 106, 0.08);
+        font-weight: 300;
+      }
+
+      .footer strong {
+        font-weight: 600;
+        color: var(--plum);
+        font-family: "Playfair Display", serif;
+      }
+
+      /* ======== ANIMATIONS ======== */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ======== RESPONSIVE ======== */
+      @media (max-width: 900px) {
+        .navbar {
+          padding: 18px 24px;
+        }
+        .hero {
+          padding: 48px 24px 0;
+        }
+        .hero h1 {
+          font-size: 34px;
+        }
+        .content {
+          grid-template-columns: 1fr;
+          padding: 36px 24px 70px;
+        }
+        .history-panel {
+          grid-column: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body onload="loadPeriods()">
+    <div class="page-wrap">
+      <!-- NAVBAR -->
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">🌷</div>
+          PinkGuard
+        </a>
+        <button
+          class="back-btn"
+          onclick="window.location.href = 'dashboard.html'"
+        >
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
+          Back to Dashboard
+        </button>
+      </nav>
+
+      <!-- HERO -->
+      <header class="hero">
+        <div class="hero-badge">📅 Period Tracker</div>
+        <h1>Know your body,<br /><em>own your cycle.</em></h1>
+        <p>
+          Log your period dates, predict what's next, and understand your phase
+          — all in one place.
+        </p>
+      </header>
+
+      <!-- CONTENT GRID -->
+      <main class="content">
+        <!-- ---- STATS PANEL ---- -->
+        <div class="panel" style="animation-delay: 0.1s">
+          <div class="card-blob"></div>
+          <div class="card-accent-bar"></div>
+          <div class="panel-title">Cycle Overview</div>
+          <div class="panel-sub">Your key stats at a glance</div>
+
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-icon">🔄</span>
+              <div class="stat-value" id="avgCycle">28</div>
+              <div class="stat-label">Avg Cycle</div>
+            </div>
+            <div class="stat-box">
+              <span class="stat-icon">📅</span>
+              <div
+                class="stat-value"
+                id="nextPeriod"
+                style="font-size: 18px; padding-top: 6px"
+              >
+                —
+              </div>
+              <div class="stat-label">Next Expected</div>
+            </div>
+          </div>
+
+          <!-- Cycle ring -->
+          <div class="cycle-ring-wrap">
+            <div class="cycle-ring">
+              <svg viewBox="0 0 130 130">
+                <defs>
+                  <linearGradient
+                    id="ringGrad"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop offset="0%" style="stop-color: #e8456a" />
+                    <stop offset="100%" style="stop-color: #f472a0" />
+                  </linearGradient>
+                </defs>
+                <circle class="ring-bg" cx="65" cy="65" r="55" />
+                <circle
+                  class="ring-fill"
+                  id="ringFill"
+                  cx="65"
+                  cy="65"
+                  r="55"
+                  stroke-dasharray="345.4"
+                  stroke-dashoffset="345.4"
+                />
+              </svg>
+              <div class="ring-center">
+                <div class="ring-num" id="daysLeft">—</div>
+                <div class="ring-hint">days left</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase -->
+          <div
+            id="phaseBadge"
+            class="phase-badge phase-follicular"
+            style="display: none"
+          >
+            <span id="phaseIcon">🌱</span>
+            <span id="phaseLabel">Follicular Phase</span>
+          </div>
+        </div>
+
+        <!-- ---- LOG PANEL ---- -->
+        <div class="panel log-section" style="animation-delay: 0.2s">
+          <div class="card-blob"></div>
+          <div class="card-accent-bar"></div>
+          <div class="panel-title">Log a Period</div>
+          <div class="panel-sub">Select your period start date and tap log</div>
+
+          <div class="date-input-wrap">
+            <span class="date-icon">📆</span>
+            <input type="date" id="selectedDate" />
+          </div>
+
+          <button class="log-btn" onclick="addPeriod()">
+            <svg viewBox="0 0 24 24">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Log Period Start
+          </button>
+
+          <div class="toast" id="toast">
+            ✅ Period date logged successfully!
+          </div>
+
+          <!-- Tips -->
+          <div
+            style="
+              margin-top: 24px;
+              padding-top: 20px;
+              border-top: 1px solid rgba(232, 69, 106, 0.08);
+            "
+          >
+            <div
+              style="
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin-bottom: 12px;
+              "
+            >
+              Cycle Tips
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <div
+                style="
+                  display: flex;
+                  gap: 10px;
+                  align-items: flex-start;
+                  font-size: 13px;
+                  color: var(--muted);
+                  font-weight: 300;
+                  line-height: 1.5;
+                "
+              >
+                <span>🩸</span> Log on the first day of bleeding for best
+                predictions
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: 10px;
+                  align-items: flex-start;
+                  font-size: 13px;
+                  color: var(--muted);
+                  font-weight: 300;
+                  line-height: 1.5;
+                "
+              >
+                <span>📊</span> Predictions improve after logging 3+ cycles
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: 10px;
+                  align-items: flex-start;
+                  font-size: 13px;
+                  color: var(--muted);
+                  font-weight: 300;
+                  line-height: 1.5;
+                "
+              >
+                <span>💊</span> Always consult a doctor if cycles are irregular
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- HISTORY PANEL ---- -->
+        <div
+          class="panel history-panel"
+          id="historySection"
+          style="display: none"
+        >
+          <div class="card-blob"></div>
+          <div class="card-accent-bar"></div>
+          <div class="panel-title">Period History</div>
+          <div class="panel-sub">
+            Your logged cycle dates — most recent first
+          </div>
+          <ul class="history-list" id="historyList"></ul>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        © 2026 <strong>PinkGuard</strong> · Made with care 🌷 · Not a substitute
+        for medical advice.
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      // ── Helpers ──────────────────────────────────────────
+      function formatDate(dateStr) {
+        const d = new Date(dateStr + "T00:00:00");
+        return d.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+      }
+
+      function daysAgo(dateStr) {
+        const diff = Math.round(
+          (Date.now() - new Date(dateStr + "T00:00:00")) / 86400000,
+        );
+        if (diff === 0) return "Today";
+        if (diff === 1) return "Yesterday";
+        return diff + " days ago";
+      }
+
+      function getPhase(dayOfCycle, cycleLen) {
+        if (dayOfCycle <= 5)
+          return {
+            label: "Menstrual Phase",
+            icon: "🩸",
+            cls: "phase-menstrual",
+          };
+        if (dayOfCycle <= 13)
+          return {
+            label: "Follicular Phase",
+            icon: "🌱",
+            cls: "phase-follicular",
+          };
+        if (dayOfCycle <= 16)
+          return {
+            label: "Ovulation Phase",
+            icon: "🌟",
+            cls: "phase-ovulation",
+          };
+        return { label: "Luteal Phase", icon: "🌙", cls: "phase-luteal" };
+      }
+
+      // ── Core Logic ────────────────────────────────────────
+      function getPeriods() {
+        return JSON.parse(localStorage.getItem("pg_periods") || "[]");
+      }
+
+      function savePeriods(arr) {
+        localStorage.setItem("pg_periods", JSON.stringify(arr));
+      }
+
+      function updateStats() {
+        const periods = getPeriods();
+        const avgEl = document.getElementById("avgCycle");
+        const nextEl = document.getElementById("nextPeriod");
+        const daysEl = document.getElementById("daysLeft");
+        const ringEl = document.getElementById("ringFill");
+        const phaseEl = document.getElementById("phaseBadge");
+
+        if (periods.length === 0) {
+          avgEl.textContent = "28";
+          nextEl.textContent = "—";
+          daysEl.textContent = "—";
+          ringEl.style.strokeDashoffset = "345.4";
+          phaseEl.style.display = "none";
+          return;
+        }
+
+        // Sort ascending
+        const sorted = [...periods].sort((a, b) => new Date(a) - new Date(b));
+
+        // Average cycle
+        let avgCycle = 28;
+        if (sorted.length > 1) {
+          let totalDays = 0;
+          for (let i = 1; i < sorted.length; i++) {
+            totalDays += Math.round(
+              (new Date(sorted[i]) - new Date(sorted[i - 1])) / 86400000,
+            );
+          }
+          avgCycle = Math.round(totalDays / (sorted.length - 1));
+        }
+        avgEl.textContent = avgCycle;
+
+        // Last period
+        const lastDate = new Date(sorted[sorted.length - 1] + "T00:00:00");
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const daysSinceLast = Math.round((today - lastDate) / 86400000);
+
+        // Next period
+        const nextDate = new Date(lastDate);
+        nextDate.setDate(nextDate.getDate() + avgCycle);
+        const daysUntilNext = Math.round((nextDate - today) / 86400000);
+
+        if (daysUntilNext >= 0) {
+          nextEl.textContent = nextDate.toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+          });
+          daysEl.textContent = daysUntilNext;
+        } else {
+          nextEl.textContent = "Due";
+          daysEl.textContent = "0";
+        }
+
+        // Ring progress
+        const progress = Math.min(daysSinceLast / avgCycle, 1);
+        const circumference = 345.4;
+        ringEl.style.strokeDashoffset =
+          circumference - progress * circumference;
+
+        // Phase
+        const dayOfCycle = (daysSinceLast % avgCycle) + 1;
+        const phase = getPhase(dayOfCycle, avgCycle);
+        phaseEl.className = "phase-badge " + phase.cls;
+        phaseEl.style.display = "flex";
+        document.getElementById("phaseIcon").textContent = phase.icon;
+        document.getElementById("phaseLabel").textContent = phase.label;
+      }
+
+      function renderHistory() {
+        const periods = getPeriods();
+        const section = document.getElementById("historySection");
+        const list = document.getElementById("historyList");
+
+        if (periods.length === 0) {
+          section.style.display = "none";
+          return;
+        }
+
+        section.style.display = "block";
+        const sorted = [...periods].sort((a, b) => new Date(b) - new Date(a));
+
+        list.innerHTML = sorted
+          .map(
+            (d, i) => `
+          <li class="history-item" style="animation-delay:${i * 0.06}s">
+            <div class="history-left">
+              <div class="history-dot"></div>
+              <div>
+                <div class="history-date">${formatDate(d)}</div>
+                <div class="history-days-ago">${daysAgo(d)}</div>
+              </div>
+            </div>
+            <button class="delete-btn" onclick="deletePeriod('${d}')" title="Remove">✕</button>
+          </li>
+        `,
+          )
+          .join("");
+      }
+
+      function loadPeriods() {
+        // Set today as default date
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("selectedDate").value = today;
+        updateStats();
+        renderHistory();
+      }
+
+      function addPeriod() {
+        const dateVal = document.getElementById("selectedDate").value;
+        if (!dateVal) return;
+
+        const periods = getPeriods();
+        if (!periods.includes(dateVal)) {
+          periods.push(dateVal);
+          savePeriods(periods);
+        }
+
+        updateStats();
+        renderHistory();
+
+        // Show toast
+        const toast = document.getElementById("toast");
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 3000);
+      }
+
+      function deletePeriod(dateStr) {
+        const periods = getPeriods().filter((d) => d !== dateStr);
+        savePeriods(periods);
+        updateStats();
+        renderHistory();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+from pymongo import MongoClient
+
+def get_database():
+    client = MongoClient("mongodb://localhost:27017/")
+    db = client["herhealth"]
+
+    # Create unique index for email (VERY IMPORTANT)
+    db.users.create_index("email", unique=True)
+
+    return db
+    {
+  "_id": ObjectId("..."),
+
+  "name": "Archana",
+  "age": 21,
+  "email": "archana@gmail.com",
+  "password": "123456",
+
+  "periods": [
+    {
+      "last_period_date": "2026-02-01",
+      "cycle_length": 28,
+      "predicted_next_period": "2026-02-29",
+      "date_added": ISODate("2026-02-27T10:00:00Z")
+    }
+  ],
+
+  "assessments": [
+    {
+      "type": "Breast Cancer",
+      "inputs": {
+        "lump": "yes",
+        "family_history": "no",
+        "pain": "yes"
+      },
+      "score": 4,
+      "risk": "Moderate",
+      "date": ISODate("2026-02-27T10:05:00Z")
+    },
+    {
+      "type": "PCOS",
+      "inputs": {
+        "irregular_periods": "yes",
+        "acne": "yes",
+        "weight_gain": "yes"
+      },
+      "score": 6,
+      "risk": "High",
+      "date": ISODate("2026-02-27T10:10:00Z")
+    }
+  ]
+}

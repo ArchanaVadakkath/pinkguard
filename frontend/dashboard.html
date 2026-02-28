@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PinkGuard Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose: #e8456a;
+        --rose-light: #f472a0;
+        --plum: #7c2d52;
+        --blush: #fce8ef;
+        --cream: #fdf8f5;
+        --warm-white: #fffaf8;
+        --text: #2a1a22;
+        --muted: #9b7a8a;
+        --card-bg: rgba(255, 255, 255, 0.72);
+        --shadow: 0 8px 32px rgba(124, 45, 82, 0.1);
+        --glow: 0 0 40px rgba(232, 69, 106, 0.18);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cream);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ---- Background Texture ---- */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 10% 0%,
+            #ffe0ed55 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 60% 50% at 90% 100%,
+            #f3d9ff44 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 50% 40% at 50% 50%,
+            #fff0f533 0%,
+            transparent 70%
+          );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ---- Noise overlay ---- */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      .page-wrap {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ======== NAVBAR ======== */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px 48px;
+        background: rgba(255, 250, 248, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(232, 69, 106, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--plum);
+        letter-spacing: -0.02em;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        box-shadow: 0 4px 14px rgba(232, 69, 106, 0.3);
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      #welcomeText {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .logout-btn {
+        padding: 8px 20px;
+        background: transparent;
+        border: 1.5px solid var(--rose);
+        color: var(--rose);
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: all 0.25s ease;
+        letter-spacing: 0.02em;
+      }
+
+      .logout-btn:hover {
+        background: var(--rose);
+        color: white;
+        box-shadow: 0 4px 16px rgba(232, 69, 106, 0.3);
+        transform: translateY(-1px);
+      }
+
+      /* ======== HERO ======== */
+      .hero {
+        padding: 72px 48px 40px;
+        max-width: 900px;
+        animation: fadeUp 0.7s ease both;
+      }
+
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--blush);
+        color: var(--rose);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 50px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(232, 69, 106, 0.15);
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 52px;
+        font-weight: 700;
+        line-height: 1.15;
+        color: var(--plum);
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+      }
+
+      .hero h1 em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .hero p {
+        font-size: 17px;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.6;
+      }
+
+      /* ======== DATE STRIP ======== */
+      .date-strip {
+        margin: 0 48px 48px;
+        padding: 18px 28px;
+        background: var(--card-bg);
+        border-radius: 18px;
+        border: 1px solid rgba(232, 69, 106, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: var(--shadow);
+        animation: fadeUp 0.7s 0.1s ease both;
+        backdrop-filter: blur(10px);
+        max-width: 520px;
+      }
+
+      .date-dot {
+        width: 10px;
+        height: 10px;
+        background: var(--rose);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+        flex-shrink: 0;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.4);
+        }
+      }
+
+      .date-strip span {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      /* ======== CARDS GRID ======== */
+      .cards-section {
+        padding: 0 48px 80px;
+      }
+
+      .section-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 20px;
+        padding-left: 4px;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 18px;
+      }
+
+      /* Card base */
+      .dashboard-card {
+        background: var(--card-bg);
+        border-radius: 24px;
+        padding: 28px 26px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        cursor: default;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.7s ease both;
+      }
+
+      .dashboard-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 24px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.5) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow:
+          0 20px 48px rgba(124, 45, 82, 0.14),
+          var(--glow);
+      }
+
+      /* Grid sizing */
+      .card-wide {
+        grid-column: span 7;
+      }
+      .card-narrow {
+        grid-column: span 5;
+      }
+      .card-third {
+        grid-column: span 4;
+      }
+
+      /* Card accent bar */
+      .card-accent {
+        width: 36px;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--rose), var(--rose-light));
+        margin-bottom: 18px;
+      }
+
+      /* Card icon */
+      .card-icon {
+        font-size: 36px;
+        margin-bottom: 12px;
+        display: block;
+        line-height: 1;
+      }
+
+      .dashboard-card h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--plum);
+        margin-bottom: 8px;
+        letter-spacing: -0.01em;
+      }
+
+      .dashboard-card p {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 22px;
+        font-weight: 300;
+      }
+
+      /* CTA button */
+      .card-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        color: white;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 16px rgba(232, 69, 106, 0.28);
+        letter-spacing: 0.01em;
+      }
+
+      .card-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px rgba(232, 69, 106, 0.38);
+        opacity: 0.95;
+      }
+
+      .card-btn svg {
+        width: 14px;
+        height: 14px;
+        stroke: white;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* Card tag */
+      .card-tag {
+        position: absolute;
+        top: 22px;
+        right: 22px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+
+      .tag-awareness {
+        background: #fce8ef;
+        color: var(--rose);
+      }
+      .tag-tracker {
+        background: #e8f5e9;
+        color: #388e3c;
+      }
+      .tag-nutrition {
+        background: #fff3e0;
+        color: #e65100;
+      }
+
+      /* Card decorative blob */
+      .card-blob {
+        position: absolute;
+        right: -30px;
+        bottom: -30px;
+        width: 110px;
+        height: 110px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 69, 106, 0.08) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      /* Stagger animations */
+      .dashboard-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .dashboard-card:nth-child(2) {
+        animation-delay: 0.18s;
+      }
+      .dashboard-card:nth-child(3) {
+        animation-delay: 0.26s;
+      }
+      .dashboard-card:nth-child(4) {
+        animation-delay: 0.34s;
+      }
+      .dashboard-card:nth-child(5) {
+        animation-delay: 0.42s;
+      }
+
+      /* ======== DISCLAIMER ======== */
+      .disclaimer {
+        margin: 0 48px 48px;
+        padding: 14px 22px;
+        background: rgba(255, 243, 205, 0.7);
+        border: 1px solid rgba(255, 193, 7, 0.25);
+        border-radius: 14px;
+        font-size: 13px;
+        color: #6d4c00;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: fadeUp 0.7s 0.5s ease both;
+        backdrop-filter: blur(8px);
+      }
+
+      /* ======== FOOTER ======== */
+      .footer {
+        text-align: center;
+        padding: 24px;
+        font-size: 13px;
+        color: var(--muted);
+        border-top: 1px solid rgba(232, 69, 106, 0.08);
+      }
+
+      /* ======== ANIMATIONS ======== */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ======== RESPONSIVE ======== */
+      @media (max-width: 900px) {
+        .navbar {
+          padding: 18px 24px;
+        }
+        .hero {
+          padding: 48px 24px 28px;
+        }
+        .hero h1 {
+          font-size: 36px;
+        }
+        .date-strip,
+        .cards-section,
+        .disclaimer {
+          margin-left: 24px;
+          margin-right: 24px;
+        }
+        .cards-section {
+          padding: 0 24px 60px;
+        }
+        .card-wide,
+        .card-narrow,
+        .card-third {
+          grid-column: span 12;
+        }
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body onload="checkLogin()">
+    <div class="page-wrap">
+      <!-- NAVBAR -->
+      <nav class="navbar">
+        <div class="logo">
+          <div class="logo-icon">🌷</div>
+          PinkGuard
+        </div>
+        <div class="nav-right">
+          <span id="welcomeText">Welcome back</span>
+          <button class="logout-btn" onclick="logout()">Log out</button>
+        </div>
+      </nav>
+
+      <!-- HERO -->
+      <header class="hero">
+        <div class="hero-eyebrow"><span>●</span> Your Health Hub</div>
+        <h1>Your wellness,<br /><em>beautifully</em> tracked.</h1>
+        <p>
+          Everything you need to understand and take care of your body — all in
+          one place.
+        </p>
+      </header>
+
+      <!-- DATE STRIP -->
+      <div class="date-strip">
+        <div class="date-dot"></div>
+        <span id="todayDate">Saturday, 28 February 2026</span>
+      </div>
+
+      <!-- CARDS -->
+      <section class="cards-section">
+        <div class="section-label">Health Checks & Tools</div>
+        <div class="dashboard-grid">
+          <!-- Breast Cancer Check — wide -->
+          <div class="dashboard-card card-wide">
+            <span class="card-tag tag-awareness">Awareness</span>
+            <div class="card-blob"></div>
+            <div class="card-accent"></div>
+            <span class="card-icon">🎗️</span>
+            <h3>Breast Cancer Check</h3>
+            <p>
+              Answer a few guided questions to assess early awareness
+              indicators. Knowledge is your first line of defence.
+            </p>
+            <a href="symptom.html?type=breast" class="card-btn">
+              Begin Check
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- PCOS — narrow -->
+          <div class="dashboard-card card-narrow">
+            <div class="card-blob"></div>
+            <div class="card-accent"></div>
+            <span class="card-icon">🌸</span>
+            <h3>PCOS Assessment</h3>
+            <p>
+              Identify possible PCOS risk factors through a quick symptom
+              review.
+            </p>
+            <a href="symptom.html?type=pcos" class="card-btn">
+              Start
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Iron Deficiency — third -->
+          <div class="dashboard-card card-third">
+            <div class="card-blob"></div>
+            <div class="card-accent"></div>
+            <span class="card-icon">🩸</span>
+            <h3>Iron Deficiency</h3>
+            <p>Check anemia symptoms and your nutritional balance.</p>
+            <a href="symptom.html?type=iron" class="card-btn">
+              Check
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Period Tracker — third -->
+          <div class="dashboard-card card-third">
+            <span class="card-tag tag-tracker">Tracker</span>
+            <div class="card-blob"></div>
+            <div class="card-accent"></div>
+            <span class="card-icon">📅</span>
+            <h3>Period Tracker</h3>
+            <p>Track and predict your menstrual cycle with ease.</p>
+            <a href="period.html" class="card-btn">
+              Open
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Nutrition — third -->
+          <div class="dashboard-card card-third">
+            <span class="card-tag tag-nutrition">Nutrition</span>
+            <div class="card-blob"></div>
+            <div class="card-accent"></div>
+            <span class="card-icon">🥗</span>
+            <h3>Nutrition Guide</h3>
+            <p>Healthy diet suggestions crafted for women's health needs.</p>
+            <a href="nutrition.html" class="card-btn">
+              View
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- DISCLAIMER -->
+      <div class="disclaimer">
+        ⚠️
+        <span
+          >This platform provides <strong>health awareness only</strong> and is
+          not a substitute for professional medical advice. Always consult a
+          qualified healthcare provider.</span
+        >
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="footer">© 2026 PinkGuard · Made with care 🌷</footer>
+    </div>
+
+    <script>
+      // Set today's date
+      const d = new Date();
+      const opts = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+      document.getElementById("todayDate").textContent = d.toLocaleDateString(
+        "en-GB",
+        opts,
+      );
+
+      // Stub functions (replace with your real logic)
+      function checkLogin() {
+        const user = localStorage.getItem("pg_user");
+        if (user) {
+          document.getElementById("welcomeText").textContent =
+            "Welcome back, " + user;
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("pg_user");
+        window.location.href = "index.html";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account — PinkGuard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose: #e8456a;
+        --rose-light: #f472a0;
+        --plum: #7c2d52;
+        --blush: #fce8ef;
+        --cream: #fdf8f5;
+        --text: #2a1a22;
+        --muted: #9b7a8a;
+        --card-bg: rgba(255, 255, 255, 0.78);
+        --shadow: 0 8px 32px rgba(124, 45, 82, 0.1);
+        --glow: 0 0 40px rgba(232, 69, 106, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cream);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 70% 60% at 5% 0%,
+            #ffe0ed66 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 55% 50% at 95% 100%,
+            #f3d9ff44 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 45% 45% at 50% 55%,
+            #fff0f533 0%,
+            transparent 70%
+          );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      .page-wrap {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* ======== NAVBAR ======== */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px 60px;
+        background: rgba(255, 250, 248, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(232, 69, 106, 0.1);
+        animation: slideDown 0.6s ease both;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--plum);
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        box-shadow: 0 4px 14px rgba(232, 69, 106, 0.3);
+        flex-shrink: 0;
+      }
+
+      .nav-right {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .nav-right a {
+        color: var(--rose);
+        font-weight: 500;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+
+      .nav-right a:hover {
+        opacity: 0.75;
+      }
+
+      /* ======== MAIN LAYOUT ======== */
+      .main {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: calc(100vh - 81px);
+      }
+
+      /* ---- Left Panel ---- */
+      .left-panel {
+        background: linear-gradient(
+          145deg,
+          #a0365c 0%,
+          var(--plum) 60%,
+          #4a1535 100%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 72px 64px;
+        position: relative;
+        overflow: hidden;
+        animation: fadeIn 0.8s ease both;
+      }
+
+      .left-panel::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -60px;
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.07) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+
+      .left-panel::after {
+        content: "";
+        position: absolute;
+        bottom: -50px;
+        left: -40px;
+        width: 240px;
+        height: 240px;
+        background: radial-gradient(
+          circle,
+          rgba(244, 114, 160, 0.12) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+
+      /* Floating orbs */
+      .orb-top {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 50% 42% 58% 40% / 48% 52% 48% 52%;
+        animation:
+          morph 8s ease-in-out infinite,
+          floatSlow 6s ease-in-out infinite;
+      }
+
+      .orb-bottom {
+        position: absolute;
+        bottom: 60px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: rgba(244, 114, 160, 0.15);
+        border-radius: 50%;
+        animation: floatSlow 5s 1s ease-in-out infinite;
+      }
+
+      .left-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .left-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 40px;
+      }
+
+      .left-logo-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: morph 8s ease-in-out infinite;
+      }
+
+      .left-logo-text {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -0.02em;
+      }
+
+      .left-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.45);
+        margin-bottom: 14px;
+      }
+
+      .left-panel h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 38px;
+        color: white;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin-bottom: 16px;
+      }
+
+      .left-panel h2 em {
+        font-style: italic;
+        color: #f9a8d4;
+      }
+
+      .left-panel > .left-content > p {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.55);
+        font-weight: 300;
+        line-height: 1.65;
+        margin-bottom: 44px;
+      }
+
+      /* Steps */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .step {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        animation: fadeUp 0.6s ease both;
+      }
+
+      .step:nth-child(1) {
+        animation-delay: 0.3s;
+      }
+      .step:nth-child(2) {
+        animation-delay: 0.45s;
+      }
+      .step:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+
+      .step-num {
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        color: white;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .step-text {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.75);
+        font-weight: 400;
+        line-height: 1.4;
+      }
+
+      .step-text strong {
+        color: white;
+        font-weight: 500;
+      }
+
+      /* ---- Right Panel (Form) ---- */
+      .right-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 48px;
+        animation: fadeUp 0.8s 0.15s ease both;
+        overflow-y: auto;
+      }
+
+      .form-card {
+        width: 100%;
+        max-width: 440px;
+      }
+
+      .form-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--blush);
+        color: var(--rose);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 50px;
+        margin-bottom: 22px;
+        border: 1px solid rgba(232, 69, 106, 0.15);
+      }
+
+      .form-card h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 34px;
+        color: var(--plum);
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+        line-height: 1.2;
+      }
+
+      .form-card h2 em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .form-subtitle {
+        font-size: 15px;
+        color: var(--muted);
+        font-weight: 300;
+        margin-bottom: 32px;
+      }
+
+      /* ---- Input Group ---- */
+      .input-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 0;
+      }
+
+      .input-group {
+        margin-bottom: 16px;
+      }
+
+      .input-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--plum);
+        margin-bottom: 7px;
+        letter-spacing: 0.02em;
+      }
+
+      .input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 16px;
+        font-size: 15px;
+        pointer-events: none;
+        opacity: 0.45;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 13px 16px 13px 44px;
+        border-radius: 14px;
+        border: 1.5px solid rgba(124, 45, 82, 0.12);
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+        font-family: "DM Sans", sans-serif;
+        color: var(--text);
+        outline: none;
+        transition: all 0.25s ease;
+        backdrop-filter: blur(8px);
+        appearance: none;
+      }
+
+      .input-group input::placeholder {
+        color: var(--muted);
+        font-weight: 300;
+      }
+
+      .input-group input:focus,
+      .input-group select:focus {
+        border-color: var(--rose);
+        background: white;
+        box-shadow: 0 0 0 4px rgba(232, 69, 106, 0.08);
+      }
+
+      /* Strength bar */
+      .strength-wrap {
+        margin-top: 8px;
+      }
+
+      .strength-bar {
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(124, 45, 82, 0.1);
+        overflow: hidden;
+        margin-bottom: 4px;
+      }
+
+      .strength-fill {
+        height: 100%;
+        border-radius: 2px;
+        transition:
+          width 0.4s ease,
+          background 0.4s ease;
+        width: 0%;
+      }
+
+      .strength-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--muted);
+      }
+
+      /* Toggle password */
+      .toggle-pw {
+        position: absolute;
+        right: 14px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+        opacity: 0.4;
+        padding: 4px;
+        transition: opacity 0.2s;
+        line-height: 1;
+      }
+
+      .toggle-pw:hover {
+        opacity: 0.8;
+      }
+
+      /* Terms */
+      .terms-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 24px;
+        margin-top: 4px;
+      }
+
+      .terms-row input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        padding: 0;
+        margin-top: 2px;
+        flex-shrink: 0;
+        accent-color: var(--rose);
+        border-radius: 4px;
+      }
+
+      .terms-row label {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.5;
+        cursor: pointer;
+      }
+
+      .terms-row label a {
+        color: var(--rose);
+        font-weight: 500;
+        text-decoration: none;
+      }
+      .terms-row label a:hover {
+        opacity: 0.75;
+      }
+
+      /* Submit */
+      .submit-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 500;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        box-shadow: 0 6px 20px rgba(232, 69, 106, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 22px;
+        letter-spacing: 0.02em;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(232, 69, 106, 0.4);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .submit-btn svg {
+        width: 16px;
+        height: 16px;
+        stroke: white;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* Divider */
+      .form-divider {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      .form-divider-line {
+        flex: 1;
+        height: 1px;
+        background: rgba(124, 45, 82, 0.1);
+      }
+      .form-divider span {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* Login link */
+      .login-row {
+        text-align: center;
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 300;
+      }
+
+      .login-row a {
+        color: var(--rose);
+        font-weight: 500;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+
+      .login-row a:hover {
+        opacity: 0.75;
+      }
+
+      /* Message */
+      #message {
+        display: none;
+        font-size: 13px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        font-weight: 400;
+        text-align: left;
+      }
+
+      #message.error {
+        display: block;
+        background: #fff0f3;
+        color: var(--rose);
+        border: 1px solid rgba(232, 69, 106, 0.2);
+        animation: shake 0.4s ease;
+      }
+
+      #message.success {
+        display: block;
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid rgba(46, 125, 50, 0.2);
+        animation: fadeUp 0.4s ease;
+      }
+
+      /* ======== ANIMATIONS ======== */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes morph {
+        0%,
+        100% {
+          border-radius: 50% 42% 58% 40% / 48% 52% 48% 52%;
+        }
+        33% {
+          border-radius: 60% 40% 44% 56% / 54% 44% 56% 46%;
+        }
+        66% {
+          border-radius: 42% 58% 56% 44% / 40% 60% 42% 58%;
+        }
+      }
+
+      @keyframes floatSlow {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20%,
+        60% {
+          transform: translateX(-6px);
+        }
+        40%,
+        80% {
+          transform: translateX(6px);
+        }
+      }
+
+      /* ======== RESPONSIVE ======== */
+      @media (max-width: 900px) {
+        .main {
+          grid-template-columns: 1fr;
+        }
+        .left-panel {
+          display: none;
+        }
+        .right-panel {
+          padding: 48px 28px;
+        }
+        .navbar {
+          padding: 18px 28px;
+        }
+        .input-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page-wrap">
+      <!-- NAVBAR -->
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">🌷</div>
+          PinkGuard
+        </a>
+        <div class="nav-right">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+      </nav>
+
+      <div class="main">
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+          <div class="orb-top"></div>
+          <div class="orb-bottom"></div>
+
+          <div class="left-content">
+            <div class="left-logo">
+              <div class="left-logo-icon">🌷</div>
+              <div class="left-logo-text">PinkGuard</div>
+            </div>
+
+            <div class="left-eyebrow">Getting started</div>
+            <h2>Your health<br />journey <em>starts here.</em></h2>
+            <p>
+              Join thousands of women using PinkGuard to understand their bodies
+              and take charge of their wellbeing.
+            </p>
+
+            <div class="steps">
+              <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                  <strong>Create your account</strong> — takes less than a
+                  minute
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                  <strong>Run your first health check</strong> — breast, PCOS,
+                  or iron
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                  <strong>Track your cycle</strong> — and get personalised
+                  insights
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL (FORM) -->
+        <div class="right-panel">
+          <div class="form-card">
+            <div class="form-eyebrow">💖 New Account</div>
+            <h2>Create your<br /><em>account</em></h2>
+            <p class="form-subtitle">Free forever. No credit card required.</p>
+
+            <!-- Message -->
+            <p id="message"></p>
+
+            <!-- Name + Age row -->
+            <div class="input-row">
+              <div class="input-group">
+                <label for="name">Full Name</label>
+                <div class="input-wrap">
+                  <span class="input-icon">👤</span>
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="Your name"
+                    autocomplete="name"
+                  />
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="age">Age</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🎂</span>
+                  <input
+                    type="number"
+                    id="age"
+                    placeholder="e.g. 24"
+                    min="13"
+                    max="99"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="input-group">
+              <label for="email">Email Address</label>
+              <div class="input-wrap">
+                <span class="input-icon">✉️</span>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="input-group">
+              <label for="password">Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔑</span>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Create a strong password"
+                  autocomplete="new-password"
+                  oninput="checkStrength(this.value)"
+                />
+                <button
+                  class="toggle-pw"
+                  type="button"
+                  onclick="togglePw()"
+                  id="toggleBtn"
+                  title="Show password"
+                >
+                  👁️
+                </button>
+              </div>
+              <div class="strength-wrap">
+                <div class="strength-bar">
+                  <div class="strength-fill" id="strengthFill"></div>
+                </div>
+                <div class="strength-label" id="strengthLabel">
+                  Enter a password
+                </div>
+              </div>
+            </div>
+
+            <!-- Terms -->
+            <div class="terms-row">
+              <input type="checkbox" id="terms" />
+              <label for="terms">
+                I agree to PinkGuard's <a href="#">Terms of Service</a> and
+                <a href="#">Privacy Policy</a>. Your data is private and never
+                sold.
+              </label>
+            </div>
+
+            <button class="submit-btn" onclick="registerUser()">
+              Create Account
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+
+            <div class="form-divider">
+              <div class="form-divider-line"></div>
+              <span>Have an account?</span>
+              <div class="form-divider-line"></div>
+            </div>
+
+            <div class="login-row">
+              <a href="login.html">Sign in to your account →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      function togglePw() {
+        const pw = document.getElementById("password");
+        const btn = document.getElementById("toggleBtn");
+        pw.type = pw.type === "password" ? "text" : "password";
+        btn.textContent = pw.type === "password" ? "👁️" : "🙈";
+      }
+
+      function checkStrength(val) {
+        const fill = document.getElementById("strengthFill");
+        const label = document.getElementById("strengthLabel");
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[^A-Za-z0-9]/.test(val)) score++;
+
+        const levels = [
+          { pct: "0%", color: "transparent", text: "Enter a password" },
+          { pct: "25%", color: "#ef4444", text: "Weak" },
+          { pct: "50%", color: "#f97316", text: "Fair" },
+          { pct: "75%", color: "#eab308", text: "Good" },
+          { pct: "100%", color: "#22c55e", text: "Strong 💪" },
+        ];
+
+        const l = val.length === 0 ? levels[0] : levels[score];
+        fill.style.width = l.pct;
+        fill.style.background = l.color;
+        label.textContent = l.text;
+        label.style.color =
+          l.color === "transparent" ? "var(--muted)" : l.color;
+      }
+
+      // Expose showMessage for script.js
+      function showMessage(msg, type = "error") {
+        const el = document.getElementById("message");
+        el.textContent = (type === "error" ? "⚠️ " : "✅ ") + msg;
+        el.className = type;
+      }
+    </script>
+  </body>
+</html>
