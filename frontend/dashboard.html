@@ -39,7 +39,6 @@
         overflow-x: hidden;
       }
 
-      /* ---- Background Texture ---- */
       body::before {
         content: "";
         position: fixed;
@@ -64,7 +63,6 @@
         z-index: 0;
       }
 
-      /* ---- Noise overlay ---- */
       body::after {
         content: "";
         position: fixed;
@@ -188,7 +186,6 @@
         font-style: italic;
         color: var(--rose);
       }
-
       .hero p {
         font-size: 17px;
         color: var(--muted);
@@ -239,11 +236,7 @@
         font-weight: 400;
       }
 
-      /* ======== CARDS GRID ======== */
-      .cards-section {
-        padding: 0 48px 80px;
-      }
-
+      /* ======== SECTION LABEL ======== */
       .section-label {
         font-size: 11px;
         font-weight: 600;
@@ -254,13 +247,17 @@
         padding-left: 4px;
       }
 
+      /* ======== MAIN CARDS ======== */
+      .cards-section {
+        padding: 0 48px 48px;
+      }
+
       .dashboard-grid {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         gap: 18px;
       }
 
-      /* Card base */
       .dashboard-card {
         background: var(--card-bg);
         border-radius: 24px;
@@ -297,7 +294,6 @@
           var(--glow);
       }
 
-      /* Grid sizing */
       .card-wide {
         grid-column: span 7;
       }
@@ -308,7 +304,6 @@
         grid-column: span 4;
       }
 
-      /* Card accent bar */
       .card-accent {
         width: 36px;
         height: 4px;
@@ -317,7 +312,6 @@
         margin-bottom: 18px;
       }
 
-      /* Card icon */
       .card-icon {
         font-size: 36px;
         margin-bottom: 12px;
@@ -342,7 +336,6 @@
         font-weight: 300;
       }
 
-      /* CTA button */
       .card-btn {
         display: inline-flex;
         align-items: center;
@@ -378,7 +371,6 @@
         stroke-linejoin: round;
       }
 
-      /* Card tag */
       .card-tag {
         position: absolute;
         top: 22px;
@@ -404,7 +396,6 @@
         color: #e65100;
       }
 
-      /* Card decorative blob */
       .card-blob {
         position: absolute;
         right: -30px;
@@ -420,7 +411,6 @@
         pointer-events: none;
       }
 
-      /* Stagger animations */
       .dashboard-card:nth-child(1) {
         animation-delay: 0.1s;
       }
@@ -437,6 +427,124 @@
         animation-delay: 0.42s;
       }
 
+      /* ======== QUICK ACCESS SECTION ======== */
+      .quick-section {
+        padding: 0 48px 60px;
+      }
+
+      .quick-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      .quick-card {
+        background: var(--card-bg);
+        border-radius: 18px;
+        padding: 20px 22px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-decoration: none;
+        color: inherit;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+        animation: fadeUp 0.7s ease both;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .quick-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 18px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.5) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+
+      .quick-card:hover {
+        transform: translateY(-3px);
+        box-shadow:
+          0 14px 36px rgba(124, 45, 82, 0.13),
+          var(--glow);
+      }
+
+      .quick-card:nth-child(1) {
+        animation-delay: 0.52s;
+      }
+      .quick-card:nth-child(2) {
+        animation-delay: 0.58s;
+      }
+      .quick-card:nth-child(3) {
+        animation-delay: 0.64s;
+      }
+
+      .quick-icon-wrap {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, var(--blush), #f9e4f2);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        border: 1px solid rgba(232, 69, 106, 0.1);
+      }
+
+      .quick-title {
+        font-family: "Playfair Display", serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--plum);
+        margin-bottom: 3px;
+        letter-spacing: -0.01em;
+      }
+
+      .quick-sub {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.4;
+      }
+
+      .quick-arrow {
+        margin-left: auto;
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, var(--rose), var(--rose-light));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 10px rgba(232, 69, 106, 0.25);
+        transition: transform 0.2s ease;
+      }
+
+      .quick-card:hover .quick-arrow {
+        transform: translateX(2px);
+      }
+
+      .quick-arrow svg {
+        width: 12px;
+        height: 12px;
+        stroke: white;
+        fill: none;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
       /* ======== DISCLAIMER ======== */
       .disclaimer {
         margin: 0 48px 48px;
@@ -449,7 +557,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        animation: fadeUp 0.7s 0.5s ease both;
+        animation: fadeUp 0.7s 0.7s ease both;
         backdrop-filter: blur(8px);
       }
 
@@ -487,11 +595,15 @@
         }
         .date-strip,
         .cards-section,
-        .disclaimer {
+        .disclaimer,
+        .quick-section {
           margin-left: 24px;
           margin-right: 24px;
         }
         .cards-section {
+          padding: 0 24px 40px;
+        }
+        .quick-section {
           padding: 0 24px 60px;
         }
         .card-wide,
@@ -500,6 +612,9 @@
           grid-column: span 12;
         }
         .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        .quick-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -536,11 +651,11 @@
         <span id="todayDate">Saturday, 28 February 2026</span>
       </div>
 
-      <!-- CARDS -->
+      <!-- ── HEALTH CHECKS & TOOLS ── -->
       <section class="cards-section">
         <div class="section-label">Health Checks & Tools</div>
         <div class="dashboard-grid">
-          <!-- Breast Cancer Check — wide -->
+          <!-- Breast Cancer → breast-cancer.html -->
           <div class="dashboard-card card-wide">
             <span class="card-tag tag-awareness">Awareness</span>
             <div class="card-blob"></div>
@@ -548,10 +663,10 @@
             <span class="card-icon">🎗️</span>
             <h3>Breast Cancer Check</h3>
             <p>
-              Answer a few guided questions to assess early awareness
-              indicators. Knowledge is your first line of defence.
+              Answer a few guided questions for an early awareness assessment —
+              with emotional support and personalised next steps.
             </p>
-            <a href="symptom.html?type=breast" class="card-btn">
+            <a href="breast-cancer.html" class="card-btn">
               Begin Check
               <svg viewBox="0 0 24 24">
                 <polyline points="9 18 15 12 9 6" />
@@ -559,32 +674,35 @@
             </a>
           </div>
 
-          <!-- PCOS — narrow -->
+          <!-- PCOS → pcos.html -->
           <div class="dashboard-card card-narrow">
             <div class="card-blob"></div>
             <div class="card-accent"></div>
             <span class="card-icon">🌸</span>
-            <h3>PCOS Assessment</h3>
+            <h3>PCOS / PCOD Check</h3>
             <p>
-              Identify possible PCOS risk factors through a quick symptom
-              review.
+              Identify PCOS risk factors through a quick symptom review with
+              hormone-focused guidance.
             </p>
-            <a href="symptom.html?type=pcos" class="card-btn">
-              Start
+            <a href="pcos.html" class="card-btn">
+              Start Check
               <svg viewBox="0 0 24 24">
                 <polyline points="9 18 15 12 9 6" />
               </svg>
             </a>
           </div>
 
-          <!-- Iron Deficiency — third -->
+          <!-- Iron Deficiency → anemia.html -->
           <div class="dashboard-card card-third">
             <div class="card-blob"></div>
             <div class="card-accent"></div>
             <span class="card-icon">🩸</span>
             <h3>Iron Deficiency</h3>
-            <p>Check anemia symptoms and your nutritional balance.</p>
-            <a href="symptom.html?type=iron" class="card-btn">
+            <p>
+              Check anaemia symptoms and get a supportive, personalised
+              awareness report.
+            </p>
+            <a href="anemia.html" class="card-btn">
               Check
               <svg viewBox="0 0 24 24">
                 <polyline points="9 18 15 12 9 6" />
@@ -592,7 +710,7 @@
             </a>
           </div>
 
-          <!-- Period Tracker — third -->
+          <!-- Period Tracker → period.html -->
           <div class="dashboard-card card-third">
             <span class="card-tag tag-tracker">Tracker</span>
             <div class="card-blob"></div>
@@ -608,7 +726,7 @@
             </a>
           </div>
 
-          <!-- Nutrition — third -->
+          <!-- Nutrition → nutrition.html -->
           <div class="dashboard-card card-third">
             <span class="card-tag tag-nutrition">Nutrition</span>
             <div class="card-blob"></div>
@@ -623,6 +741,57 @@
               </svg>
             </a>
           </div>
+        </div>
+      </section>
+
+      <!-- ── QUICK ACCESS ── -->
+      <section class="quick-section">
+        <div class="section-label">Quick Access — Screening Pages</div>
+        <div class="quick-grid">
+          <a href="breast-cancer.html" class="quick-card">
+            <div class="quick-icon-wrap">🎗️</div>
+            <div>
+              <div class="quick-title">Breast Cancer Screening</div>
+              <div class="quick-sub">
+                Symptom check · Emotional support · Next steps
+              </div>
+            </div>
+            <div class="quick-arrow">
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="pcos.html" class="quick-card">
+            <div class="quick-icon-wrap">🌸</div>
+            <div>
+              <div class="quick-title">PCOS / PCOD Check</div>
+              <div class="quick-sub">
+                Hormonal awareness · Guidance · Nutrition
+              </div>
+            </div>
+            <div class="quick-arrow">
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </div>
+          </a>
+
+          <a href="anemia.html" class="quick-card">
+            <div class="quick-icon-wrap">🩸</div>
+            <div>
+              <div class="quick-title">Iron Deficiency / Anaemia</div>
+              <div class="quick-sub">
+                Energy & nutrition awareness · Next steps
+              </div>
+            </div>
+            <div class="quick-arrow">
+              <svg viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </div>
+          </a>
         </div>
       </section>
 
@@ -641,7 +810,6 @@
     </div>
 
     <script>
-      // Set today's date
       const d = new Date();
       const opts = {
         weekday: "long",
@@ -654,7 +822,6 @@
         opts,
       );
 
-      // Stub functions (replace with your real logic)
       function checkLogin() {
         const user = localStorage.getItem("pg_user");
         if (user) {
