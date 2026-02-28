@@ -1,28 +1,35 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from pymongo import MongoClient
 from datetime import datetime, timedelta
+import os
 
-# -----------------------------
+# =====================================================
 # APP INITIALIZATION
-# -----------------------------
-from flask_cors import CORS
-
-app = Flask(__name__)
+# =====================================================
+app = Flask(
+    __name__,
+    template_folder="templates",
+    static_folder="static"
+)
 CORS(app)
-app = Flask(__name__)
-CORS(app)
 
-# -----------------------------
-# DATABASE CONNECTION
-# -----------------------------
-client = MongoClient("mongodb://localhost:27017/")
+# =====================================================
+# DATABASE CONNECTION (Render + Local Compatible)
+# =====================================================
+MONGO_URI = os.environ.get("MONGO_URI")
+
+if MONGO_URI:
+    client = MongoClient(MONGO_URI)
+else:
+    client = MongoClient("mongodb://localhost:27017/")
+
 db = client["herhealth"]
 users = db["users"]
 
-# -----------------------------
-# HELPER FUNCTION
-# -----------------------------
+# =====================================================
+# HELPER FUNCTIONS
+# =====================================================
 def calculate_risk(score):
     if score >= 6:
         return "High"
@@ -50,18 +57,54 @@ def save_assessment(email, disease, inputs, score):
 
     return risk
 
-
 # =====================================================
-# HOME
+# FRONTEND ROUTES
 # =====================================================
 @app.route("/")
 def home():
-    return jsonify({"message": "PinkGuard API Running 💜"})
+    return render_template("index.html")
 
+@app.route("/login")
+def login_page():
+    return render_template("login.html")
+
+@app.route("/signup")
+def signup_page():
+    return render_template("signup.html")
+
+@app.route("/dashboard")
+def dashboard_page():
+    return render_template("dashboard.html")
+
+@app.route("/breast-cancer")
+def breast_page():
+    return render_template("breast-cancer.html")
+
+@app.route("/pcos")
+def pcos_page():
+    return render_template("pcos.html")
+
+@app.route("/anemia")
+def anemia_page():
+    return render_template("anemia.html")
+
+@app.route("/period")
+def period_page():
+    return render_template("period.html")
+
+@app.route("/nutrition")
+def nutrition_page():
+    return render_template("nutrition.html")
+
+@app.route("/symptom")
+def symptom_page():
+    return render_template("symptom.html")
 
 # =====================================================
+# API ROUTES
+# =====================================================
+
 # REGISTER
-# =====================================================
 @app.route("/api/register", methods=["POST"])
 def register():
     data = request.get_json()
@@ -84,9 +127,7 @@ def register():
     return jsonify({"message": "User registered successfully"}), 201
 
 
-# =====================================================
 # LOGIN
-# =====================================================
 @app.route("/api/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -105,9 +146,7 @@ def login():
         return jsonify({"message": "Invalid credentials"}), 401
 
 
-# =====================================================
 # PERIOD TRACKER
-# =====================================================
 @app.route("/api/add_period", methods=["POST"])
 def add_period():
     data = request.get_json()
@@ -133,9 +172,7 @@ def add_period():
     }), 200
 
 
-# =====================================================
 # BREAST CANCER
-# =====================================================
 @app.route("/api/breast_cancer", methods=["POST"])
 def breast_cancer():
     data = request.get_json()
@@ -154,9 +191,7 @@ def breast_cancer():
     return jsonify({"risk": risk, "score": score})
 
 
-# =====================================================
 # PCOS
-# =====================================================
 @app.route("/api/pcos", methods=["POST"])
 def pcos():
     data = request.get_json()
@@ -174,9 +209,7 @@ def pcos():
     return jsonify({"risk": risk, "score": score})
 
 
-# =====================================================
 # PCOD
-# =====================================================
 @app.route("/api/pcod", methods=["POST"])
 def pcod():
     data = request.get_json()
@@ -192,9 +225,7 @@ def pcod():
     return jsonify({"risk": risk, "score": score})
 
 
-# =====================================================
 # IRON DEFICIENCY
-# =====================================================
 @app.route("/api/iron_deficiency", methods=["POST"])
 def iron_deficiency():
     data = request.get_json()
@@ -217,4 +248,4 @@ def iron_deficiency():
 # RUN
 # =====================================================
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
