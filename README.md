@@ -176,7 +176,7 @@ http://127.0.0.1:5000
 Live link:
 
 ```
-https://pinkguard-backend.onrender.com](https://pinkguard.onrender.co
+https://pinkguard.onrender.co
 ```
 
 * HTTPS enabled
@@ -190,7 +190,7 @@ https://pinkguard-backend.onrender.com](https://pinkguard.onrender.co
 ### Base URL
 
 ```
-https://pinkguard-backend.onrender.com](https://pinkguard.onrender.com
+https://pinkguard.onrender.com
 ```
 
 ### Endpoints
@@ -225,17 +225,6 @@ Store screenshots inside:
 <img width="1854" height="874" alt="Screenshot 2026-02-28 090241" src="https://github.com/user-attachments/assets/39cdc2ad-0227-4395-865d-0a0077c373c4" />
 <img width="1867" height="885" alt="Screenshot 2026-02-28 090336" src="https://github.com/user-attachments/assets/4ad20360-ca1d-45da-b1c4-01a6675a3b1d" />
 
-
-
-
-Recommended screenshots:
-
-* Landing Page
-* Dashboard
-* Symptom Result Page
-* Period Tracker
-* Nutrition Guide
-
 ---
 
 ## 🎥 Demo Video
@@ -243,7 +232,7 @@ Recommended screenshots:
 Demo video link:
 
 ```
-[https://your-demo-video-link.com](https://drive.google.com/file/d/1gMgXaJNxVjGg2rlwyCeARJ5Gq-TaLr55/view?usp=sharing)
+https://drive.google.com/file/d/1gMgXaJNxVjGg2rlwyCeARJ5Gq-TaLr55/view?usp=sharing)
 ```
 
 ---
